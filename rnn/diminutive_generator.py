@@ -240,8 +240,8 @@ class DiminutiveGenerator:
 
 
 if __name__ == '__main__':
-    CORPUS_TRAIN = 'data/train.tsv'
-    CORPUS_TEST = 'data/test.tsv'
+    CORPUS_TRAIN = '../data/train.tsv'
+    CORPUS_TEST = '../data/test.tsv'
 
     gen = DiminutiveGenerator(ngram=3)
     gen.fit(CORPUS_TRAIN)
