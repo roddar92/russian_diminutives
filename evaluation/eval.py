@@ -17,17 +17,13 @@ class DiminutiveEvaluator:
         correct, total = 0, 0
         for name in sample:
             dim = self.generator.generate_diminutive(name)
-            if name in self.ethalone_corpus['name'] and dim in self.ethalone_corpus['dim_form']:
+            if dim in self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]:
                 correct += 1
-                total += 1
-            elif name in self.ethalone_corpus['name']:
                 total += 1
             else:
                 base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
-                for ending in dim_endings:
-                    if dim == base + ending:
-                        correct += 1
-                        break
+                if any(dim == base + ending for ending in dim_endings):
+                    correct += 1
                 total += 1
 
         return total, correct, correct / total

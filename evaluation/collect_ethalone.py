@@ -15,30 +15,31 @@ class EthaloneCorporaCollector:
     def get_possible_dim_engings(name):
         if name.endswith('аша') or name.endswith('уля'):
             base = name[:-1] if name.endswith('аша') else name[:-3]
-            endings = ['уля', 'улечка', 'улик', 'уленька', 'утка', 'уточка', 'уня', 'унечка', 'унчик']
+            endings = ['енька', 'ечка', 'уля', 'улечка', 'улик', 'уленька',
+                       'утка', 'ута', 'уха', 'уточка', 'уня', 'унечка', 'унчик']
         elif name.endswith('ера'):
             base = name[:-1]
-            endings = ['уля', 'улечка', 'улик', 'уленька', 'уня', 'унечка', 'унчик']
+            endings = ['очка', 'онька', 'уля', 'улечка', 'улик', 'уленька', 'уня', 'ушка', 'унечка', 'унчик']
         elif name.lower().endswith('юля') or name.lower().endswith('оля') \
                 or name.endswith('уся') or name.lower().endswith('ася'):
-            base, endings = name[:-1], ['ечка', 'ик', 'енька', 'юшка', 'ютка', 'юта']
+            base, endings = name[:-1], ['ечка', 'ик', 'енька', 'юшка', 'юня', 'ютка', 'юта']
         elif name.lower().endswith('ас'):
-            base, endings = name[:-1], ['ечка', 'ик', 'енька', 'юшка']
+            base, endings = name, ['ечка', 'ик', 'енька', 'юшка']
         elif name.lower().endswith('юта'):
             base, endings = name[:-1], ['очка', 'ик', 'ушка']
         elif name.lower().endswith('оня'):
             base, endings = name[:-1], ['ечка', 'юшка']
         elif name.endswith('иша'):
             base = name[:-1]
-            endings = ['ечка', 'енька', 'уля', 'улечка', 'улик', 'уленька', 'утка', 'уточка']
+            endings = ['ечка', 'енька', 'уля', 'уня', 'улечка', 'улик', 'уленька', 'утка', 'уточка']
         elif name.endswith('иса'):
             base = name[:-1]
             endings = ['очка', 'онька', 'ушка', 'уля', 'улечка', 'улик', 'уленька']
         elif name.lower().endswith('аня') or name.lower().endswith('адя') or name.endswith('атя'):
-            base, endings = name[:-1], ['юша', 'юта', 'юха', 'ечка', 'енька']
+            base, endings = name[:-1], ['юша', 'юшка', 'юшечка', 'юшенька', 'юта', 'юха', 'ечка', 'енька']
         elif name.lower().endswith('рина'):
             base = name[:-2]
-            endings = ['ша', 'шка', 'шечка', 'шенька']
+            endings = ['ша', 'шка', 'шечка', 'шенька', 'ночка']
         elif name.endswith('ава') or name.endswith('ара'):
             base = name[:-1]
             endings = ['очка', 'ик', 'ушка']
@@ -53,16 +54,19 @@ class EthaloneCorporaCollector:
             endings = ['ечка', 'ик', 'енька']
         elif name.endswith('еня'):
             base = name[:-1]
-            endings = ['ечка', 'ютка', 'юта', 'юленька', 'юлечка', 'юля', 'юшка', 'юша']
+            endings = ['ечка', 'ютка', 'юта', 'юленька', 'юлечка', 'юшечка', 'юля', 'юшка', 'юша']
         elif name.endswith('аля'):
             base = name[:-1]
-            endings = ['ечка', 'ик', 'енька', 'юля', 'юша']
+            endings = ['ечка', 'ик', 'енька', 'юля', 'юша', 'ёк']
         elif name.endswith('ова'):
             base = name[:-1]
             endings = ['очка', 'ушка']
         elif name.endswith('ана') or name.endswith('ада'):
             base = name[:-1]
             endings = ['очка', 'ушка', 'уля', 'уся']
+        elif name.endswith('уня'):
+            base = name[:-1]
+            endings = ['енька', 'ечка', 'яша', 'яшка']
         elif name.endswith('ль') or name.endswith('уша') or name.endswith('юша'):
             base = name[:-1]
             endings = ['ечка', 'енька']
@@ -71,11 +75,11 @@ class EthaloneCorporaCollector:
             endings = ['чик', 'уля', 'ушка']
         elif name.endswith('ха'):
             base = name[:-2]
-            endings = ['ша', 'шка', 'шечка', 'шенька']
+            endings = ['ша', 'шка', 'шечка', 'хочка', 'шенька', 'на', 'та']
         elif name.endswith('ая') or name.endswith('ея') or name.endswith('еля') \
                 or name.endswith('ей') or name.endswith('ай'):
             base = name[:-1]
-            endings = ['ечка', 'енька', 'юшка', 'юшечка', 'юшенька']
+            endings = ['ечка', 'енька', 'юшка', 'юша', 'юшечка', 'юшенька']
         else:
             base, endings = name[:-1], []
         return base, endings
