@@ -17,13 +17,16 @@ class DiminutiveEvaluator:
         correct, total = 0, 0
         for name in sample:
             dim = self.generator.generate_diminutive(name)
-            if dim in self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]:
+            dims = self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]
+            if len(dims.values) > 0 and dim in eval(dims.values[0]):
                 correct += 1
                 total += 1
             else:
                 base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
                 if any(dim == base + ending for ending in dim_endings):
                     correct += 1
+                #else:
+                #    print(name, dim, base, dim_endings)
                 total += 1
 
         return total, correct, correct / total
@@ -34,23 +37,24 @@ if __name__ == '__main__':
     CORPUS_TEST = '../data/test.tsv'
     CORPUS_ETHALONE = '../data/ethalone.tsv'
 
-    generator = DiminutiveGenerator(ngram=2)
-    generator.fit(CORPUS_TRAIN)
+    train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
+    test_sample = read_samples(CORPUS_TEST, ['name'])
+
+    gen1 = DiminutiveGenerator(ngram=2)
+    gen1.fit(CORPUS_TRAIN)
 
     print('Evaluate generator with bigrams:')
-    evaluator = DiminutiveEvaluator(generator, CORPUS_ETHALONE)
-    train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
+    evaluator = DiminutiveEvaluator(gen1, CORPUS_ETHALONE)
+
     print('Train data (total, correct, accuracy):', evaluator.evaluate(train_sample.name))
-    test_sample = read_samples(CORPUS_TEST, ['name'])
     print('Test data (total, correct, accuracy):', evaluator.evaluate(test_sample.name))
     print()
 
-    generator = DiminutiveGenerator(ngram=3)
-    generator.fit(CORPUS_TRAIN)
+    gen2 = DiminutiveGenerator(ngram=3)
+    gen2.fit(CORPUS_TRAIN)
 
     print('Evaluate generator with trigrams:')
-    evaluator = DiminutiveEvaluator(generator, CORPUS_ETHALONE)
-    train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
+    evaluator = DiminutiveEvaluator(gen2, CORPUS_ETHALONE)
+
     print('Train data (total, correct, accuracy):', evaluator.evaluate(train_sample.name))
-    test_sample = read_samples(CORPUS_TEST, ['name'])
     print('Test data (total, correct, accuracy):', evaluator.evaluate(test_sample.name))
