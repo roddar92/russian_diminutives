@@ -38,7 +38,8 @@ class EthaloneCorporaCollector:
         elif name.endswith('иса'):
             base = name[:-1]
             endings = ['очка', 'онька', 'ушка', 'уля', 'улечка', 'улик', 'уленька']
-        elif name.lower().endswith('аня') or name.lower().endswith('адя') or name.endswith('атя'):
+        elif name.lower().endswith('аня') or name.lower().endswith('адя') or \
+                name.endswith('атя') or name.endswith('стя'):
             base, endings = name[:-1], ['юня', 'юша', 'юшка', 'юсик',
                                         'юнечка', 'юшечка', 'юшенька', 'юта', 'юха', 'ечка', 'енька']
         elif name.lower().endswith('рина'):
@@ -68,9 +69,9 @@ class EthaloneCorporaCollector:
         elif name.endswith('ова'):
             base = name[:-1]
             endings = ['очка', 'ушка']
-        elif name.endswith('ана') or name.endswith('ада') or name.endswith('ета'):
+        elif name.endswith('ана') or name.endswith('ада') or name.endswith('ета') or name.endswith('ора'):
             base = name[:-1]
-            endings = ['очка', 'ушка', 'уля', 'уся']
+            endings = ['очка', 'ушка', 'уля', 'уся', 'усик']
         elif name.endswith('уня'):
             base = name[:-1]
             endings = ['енька', 'ечка', 'яша', 'яшка']
@@ -80,22 +81,26 @@ class EthaloneCorporaCollector:
         elif name.endswith('ика'):
             base = name[:-1]
             endings = ['уся', 'усик', 'уля', 'ушка']
-        elif name.endswith('ан') or name.endswith('ян') or name.endswith('ип') or name.endswith('ап'):
+        elif name.endswith('ан') or name.endswith('он') or name.endswith('ян') or \
+                name.endswith('ип') or name.endswith('ап')or name.endswith('ат'):
             base = name
-            endings = ['чик', 'уля', 'ушка']
+            endings = ['чик', 'уля', 'ушка', 'ик']
         elif name.endswith('ст') or name.endswith('рт'):
             base = name
             endings = ['ушка', 'ик']
+        elif name.endswith('ста') or name.endswith('рта') or name.endswith('има'):
+            base = name
+            endings = ['ушка', 'очка']
         elif name.endswith('им'):
             base = name
-            endings = ['чик', 'уша', 'ушка']
+            endings = ['чик', 'уша', 'очка', 'ушка']
         elif name.endswith('ха'):
             base = name[:-2]
             endings = ['ша', 'шка', 'шечка', 'хочка', 'шенька', 'на', 'та', 'тка', 'сик', 'ся']
         elif name.endswith('ая') or name.endswith('ея') or name.endswith('еля') \
                 or name.endswith('ей') or name.endswith('ай'):
             base = name[:-1]
-            endings = ['ечка', 'енька', 'юшка', 'юша', 'юшечка', 'юшенька']
+            endings = ['ечка', 'енька', 'юшка', 'юша', 'юшечка', 'юшенька', 'йка']
         else:
             base, endings = name[:-1] if name[-1] in 'аеёиоуыэюяь' else name, []
         return base, endings
