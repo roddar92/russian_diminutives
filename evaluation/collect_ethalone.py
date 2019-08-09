@@ -2,6 +2,7 @@ import pandas as pd
 
 from collections import defaultdict
 
+from rnn.diminutive_generator import DiminutiveGenerator
 from utils.dim_io import read_samples
 
 
@@ -13,6 +14,8 @@ class EthaloneCorporaCollector:
 
     @staticmethod
     def get_possible_dim_engings(name):
+        name = DiminutiveGenerator.normalize_k_suffix(name)
+
         if name.endswith('аша') or name.endswith('уля'):
             base = name[:-1] if name.endswith('аша') else name[:-3]
             endings = ['енька', 'ечка', 'уля', 'улечка', 'улик', 'уленька',
@@ -31,7 +34,7 @@ class EthaloneCorporaCollector:
             base, endings = name[:-1], ['ечка', 'юшка']
         elif name.endswith('иша'):
             base = name[:-1]
-            endings = ['ечка', 'енька', 'уля', 'уня', 'улечка', 'улик', 'уленька', 'утка', 'уточка']
+            endings = ['ечка', 'енька', 'уля', 'уня', 'улечка', 'улик', 'уленька', 'ута', 'утка', 'уточка']
         elif name.endswith('иса'):
             base = name[:-1]
             endings = ['очка', 'онька', 'ушка', 'уля', 'улечка', 'улик', 'уленька']
@@ -77,9 +80,12 @@ class EthaloneCorporaCollector:
         elif name.endswith('ика'):
             base = name[:-1]
             endings = ['уся', 'усик', 'уля', 'ушка']
-        elif name.endswith('ан') or name.endswith('ян'):
+        elif name.endswith('ан') or name.endswith('ян') or name.endswith('ип') or name.endswith('ап'):
             base = name
             endings = ['чик', 'уля', 'ушка']
+        elif name.endswith('ст') or name.endswith('рт'):
+            base = name
+            endings = ['ушка', 'ик']
         elif name.endswith('им'):
             base = name
             endings = ['чик', 'уша', 'ушка']

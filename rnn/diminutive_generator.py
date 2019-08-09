@@ -171,11 +171,12 @@ class DiminutiveGenerator:
 
             history = history[-self.ngram + 1:] + c
 
-    def _normalize_k_suffix(self, word):
-        if word.endswith(self._KA_ENDING):
+    @classmethod
+    def normalize_k_suffix(cls, word):
+        if word.endswith(cls._KA_ENDING):
             if word[-3] in 'йь':
                 return word[:-3] + 'я'
-            elif word[-3] not in self._RU_VOWELS:
+            elif word[-3] not in cls._RU_VOWELS:
                 return word[:-2] + word[-1]
         return word
 
@@ -194,7 +195,7 @@ class DiminutiveGenerator:
     def generate_diminutive(self, word):
 
         # check if word has 'ка' ending and normalize name
-        word = self._normalize_k_suffix(word)
+        word = self.normalize_k_suffix(word)
 
         # fill name with ngram start
         n_chars = self._START * self.ngram
