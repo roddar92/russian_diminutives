@@ -40,7 +40,7 @@ class EthaloneCorporaCollector:
             endings = ['очка', 'онька', 'ушка', 'уля', 'улечка', 'улик', 'уленька']
         elif name.lower().endswith('аня') or name.lower().endswith('адя') or \
                 name.endswith('атя') or name.endswith('стя'):
-            base, endings = name[:-1], ['юня', 'юша', 'юшка', 'юсик',
+            base, endings = name[:-1], ['юня', 'юша', 'юшка', 'юсик', 'ик',
                                         'юнечка', 'юшечка', 'юшенька', 'юта', 'юха', 'ечка', 'енька']
         elif name.lower().endswith('рина'):
             base = name[:-2]
@@ -50,8 +50,12 @@ class EthaloneCorporaCollector:
             endings = ['очка', 'ик', 'ушка', 'уня']
         elif name.endswith('ата') or name.endswith('ита'):
             base = name[:-1]
-            endings = ['очка', 'ик', 'ушка', 'уля', 'улечка', 'улик', 'уленька', 'уся']
-        elif name.endswith('ина') or name.lower().endswith('ида'):
+            endings = ['очка', 'ик', 'ушка', 'уля', 'улечка', 'улик', 'уленька', 'уся', 'усик']
+        elif name.endswith('сса'):
+            base = name[:-1]
+            endings = ['очка', 'ик', 'ушка', 'онька']
+        elif name.endswith('ина') or name.lower().endswith('ида') or name.lower().endswith('ила') or \
+                name.lower().endswith('она'):
             base = name[:-1]
             endings = ['очка', 'ушка', 'уша', 'уля', 'уся']
         elif name.endswith('оша') or name.endswith('ося'):
@@ -77,10 +81,10 @@ class EthaloneCorporaCollector:
             endings = ['енька', 'ечка', 'яша', 'яшка']
         elif name.endswith('ль') or name.endswith('уша') or name.endswith('юша'):
             base = name[:-1]
-            endings = ['ечка', 'енька']
+            endings = ['ечка', 'енька', 'ик']
         elif name.endswith('ика'):
             base = name[:-1]
-            endings = ['уся', 'усик', 'уля', 'ушка']
+            endings = ['уся', 'усик', 'уля', 'уня', 'ушка']
         elif name.endswith('ан') or name.endswith('он') or name.endswith('ян') or \
                 name.endswith('ип') or name.endswith('ап')or name.endswith('ат'):
             base = name
@@ -88,8 +92,9 @@ class EthaloneCorporaCollector:
         elif name.endswith('ст') or name.endswith('рт'):
             base = name
             endings = ['ушка', 'ик']
-        elif name.endswith('ста') or name.endswith('рта') or name.endswith('има'):
-            base = name
+        elif name.endswith('ста') or name.endswith('рта') or name.endswith('иза') or \
+                name.endswith('има') or name.endswith('ира') or name.lower().endswith('яна'):
+            base = name[:-1]
             endings = ['ушка', 'очка']
         elif name.endswith('им'):
             base = name
