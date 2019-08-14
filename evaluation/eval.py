@@ -13,10 +13,10 @@ class DiminutiveEvaluator:
         self.ethalone_corpus.columns = ['name', 'dim_form']
 
     def evaluate(self, sample):
-        # todo: calculate count of calls into self._find_default_transition() method! Maybe, decorator?
-        correct, same, total = 0, 0, 0
+        # todo: calculate count of calls into self._find_default_transition() method with decorator
+        correct, same, euristics, total = 0, 0, 0, 0
         for name in sample:
-            dim = self.generator.generate_diminutive(name)
+            dim, flag = self.generator.generate_diminutive(name, print_euristic_flag=True)
             
             if dim == name:
                 same += 1
@@ -33,8 +33,9 @@ class DiminutiveEvaluator:
                 #else:
                 #    print(name, dim, base, dim_endings)
             total += 1
+            euristics += int(flag)
 
-        return total, correct, correct / total, same
+        return total, correct, same, correct / total, euristics / total
 
 
 if __name__ == '__main__':
@@ -51,8 +52,8 @@ if __name__ == '__main__':
     print('Evaluate generator with bigrams:')
     evaluator = DiminutiveEvaluator(gen1, CORPUS_ETHALONE)
 
-    print('Train data (total, correct, accuracy, same):', evaluator.evaluate(train_sample.name))
-    print('Test data (total, correct, accuracy, same):', evaluator.evaluate(test_sample.name))
+    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
+    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
     print()
 
     gen2 = DiminutiveGenerator(ngram=3)
@@ -61,5 +62,5 @@ if __name__ == '__main__':
     print('Evaluate generator with trigrams:')
     evaluator = DiminutiveEvaluator(gen2, CORPUS_ETHALONE)
 
-    print('Train data (total, correct, accuracy, same):', evaluator.evaluate(train_sample.name))
-    print('Test data (total, correct, accuracy, same):', evaluator.evaluate(test_sample.name))
+    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
+    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
