@@ -192,7 +192,10 @@ class DiminutiveGenerator:
 
         return select_by_char(hists)
 
-    def generate_diminutive(self, word):
+    def generate_diminutive(self, word, print_euristic_flag=False):
+        
+        if print_euristic_flag:
+            used_euristic = False
 
         # check if word has 'ка' ending and normalize name
         word = self.normalize_k_suffix(word)
@@ -211,6 +214,8 @@ class DiminutiveGenerator:
                 return word[self.ngram:].capitalize()
 
             index, letter, max_hist = default_params
+            if print_euristic_flag:
+                used_euristic = True
 
         # select transits with first character which equal the letter of a name
         max_hist_for_letter = [(tr, _) for tr, _ in max_hist if tr[0] == letter]
@@ -226,7 +231,8 @@ class DiminutiveGenerator:
         result = word[:index] + first_dim_letter
         tail = ''.join(self._generate_diminutive_tail(result[-self.ngram:]))
 
-        return result[self.ngram:].capitalize() + tail
+        diminutive_name = result[self.ngram:].capitalize() + tail
+        return diminutive_name if not print_euristic_flag else (diminutive_name, used_euristic)
 
 
 if __name__ == '__main__':
