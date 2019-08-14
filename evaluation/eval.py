@@ -14,22 +14,27 @@ class DiminutiveEvaluator:
 
     def evaluate(self, sample):
         # todo: calculate count of calls into self._find_default_transition() method! Maybe, decorator?
-        correct, total = 0, 0
+        correct, same, total = 0, 0, 0
         for name in sample:
             dim = self.generator.generate_diminutive(name)
+            
+            if dim == name:
+                same += 1
+                total += 1
+                continue
+            
             dims = self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]
             if len(dims.values) > 0 and dim in eval(dims.values[0]):
                 correct += 1
-                total += 1
             else:
                 base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
                 if any(dim == base + ending for ending in dim_endings):
                     correct += 1
                 #else:
                 #    print(name, dim, base, dim_endings)
-                total += 1
+            total += 1
 
-        return total, correct, correct / total
+        return total, correct, correct / total, same
 
 
 if __name__ == '__main__':
@@ -46,8 +51,8 @@ if __name__ == '__main__':
     print('Evaluate generator with bigrams:')
     evaluator = DiminutiveEvaluator(gen1, CORPUS_ETHALONE)
 
-    print('Train data (total, correct, accuracy):', evaluator.evaluate(train_sample.name))
-    print('Test data (total, correct, accuracy):', evaluator.evaluate(test_sample.name))
+    print('Train data (total, correct, accuracy, same):', evaluator.evaluate(train_sample.name))
+    print('Test data (total, correct, accuracy, same):', evaluator.evaluate(test_sample.name))
     print()
 
     gen2 = DiminutiveGenerator(ngram=3)
@@ -56,5 +61,5 @@ if __name__ == '__main__':
     print('Evaluate generator with trigrams:')
     evaluator = DiminutiveEvaluator(gen2, CORPUS_ETHALONE)
 
-    print('Train data (total, correct, accuracy):', evaluator.evaluate(train_sample.name))
-    print('Test data (total, correct, accuracy):', evaluator.evaluate(test_sample.name))
+    print('Train data (total, correct, accuracy, same):', evaluator.evaluate(train_sample.name))
+    print('Test data (total, correct, accuracy, same):', evaluator.evaluate(test_sample.name))
