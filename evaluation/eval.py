@@ -16,7 +16,11 @@ class DiminutiveEvaluator:
         # todo: calculate count of calls into self._find_default_transition() method with decorator
         correct, same, euristics, total = 0, 0, 0, 0
         for name in sample:
-            dim, flag = self.generator.generate_diminutive(name, print_euristic_flag=True)
+            dim_flag = self.generator.generate_diminutive(name, print_euristic_flag=True)
+            if type(dim_flag) == str:
+                dim = dim_flag
+            else:
+                dim, flag = dim_flag
             
             if dim == name:
                 same += 1
