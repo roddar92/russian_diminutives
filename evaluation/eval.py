@@ -38,6 +38,16 @@ class DiminutiveEvaluator:
         return total, correct, same, correct / total, euristics / total
 
 
+def evaluate_data(ethalone_path, train_path, train_sample, test_sample, ngram=2):
+    gen = DiminutiveGenerator(ngram=ngram)
+    gen.fit(train_path)
+    print(f'Evaluate generator with ngram={ngram}:')
+    evaluator = DiminutiveEvaluator(gen, ethalone_path)
+
+    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
+    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
+
+    
 if __name__ == '__main__':
     CORPUS_TRAIN = '../data/train.tsv'
     CORPUS_TEST = '../data/test.tsv'
@@ -46,21 +56,6 @@ if __name__ == '__main__':
     train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
     test_sample = read_samples(CORPUS_TEST, ['name'])
 
-    gen1 = DiminutiveGenerator(ngram=2)
-    gen1.fit(CORPUS_TRAIN)
-
-    print('Evaluate generator with bigrams:')
-    evaluator = DiminutiveEvaluator(gen1, CORPUS_ETHALONE)
-
-    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
-    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
+    evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=2)
     print()
-
-    gen2 = DiminutiveGenerator(ngram=3)
-    gen2.fit(CORPUS_TRAIN)
-
-    print('Evaluate generator with trigrams:')
-    evaluator = DiminutiveEvaluator(gen2, CORPUS_ETHALONE)
-
-    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
-    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
+    evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=3)
