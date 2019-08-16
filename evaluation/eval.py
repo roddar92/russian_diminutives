@@ -60,6 +60,6 @@ if __name__ == '__main__':
     train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
     test_sample = read_samples(CORPUS_TEST, ['name'])
 
-    evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=2)
-    print()
-    evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=3)
+    for ngram_size in (2, 3):
+        evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=ngram_size)
+        print()
