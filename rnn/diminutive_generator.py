@@ -93,7 +93,7 @@ class DiminutiveGenerator:
         self.__train_diminutive_model(df.Name, df.Diminutive)
 
         # normalize models
-        self.lang_endings_model = {hist: self._normalize(chars)
+        self.lang_endings_model = {hist: self.__normalize(chars)
                                    for hist, chars in self.lang_endings_model.items()}
         self.lang_endings_context = {hist: self.__normalize(chars)
                                      for hist, chars in self.lang_endings_context.items()}
