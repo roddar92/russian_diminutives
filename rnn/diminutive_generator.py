@@ -133,7 +133,7 @@ class DiminutiveGenerator:
         return index, letter, max_hist, prob
 
     def __find_default_transition(self, word):
-        index = len(word) - (0 if word[-1] not in self._LAST_LETTER else 2 if word.endswith('ха') else 1)
+        index = len(word) - (0 if word[-1] not in self._LAST_LETTER else 2 if word[-2:] in ['ха'] else 1)
         letter = '$' if word[-1] not in self._LAST_LETTER else word[-1]
 
         ngram = self.ngram - 1
