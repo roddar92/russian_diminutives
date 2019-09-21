@@ -6,15 +6,19 @@ from rnn.diminutive_generator import DiminutiveGenerator
 from utils.dim_io import read_samples
 
 
+def get_headers():
+    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}".format('', 'Mean', 'Median', 'Std', 'Min', 'Max')
+
+
 def compute_statistics(scores):
     scores = np.array(scores)
-    return {
-        "Mean: ": np.mean(scores, axis=0),
-        "Median: ": np.median(scores, axis=0),
-        "Std: ": np.std(scores, axis=0),
-        "Min: ": np.min(scores, axis=0),
-        "Max: ": np.max(scores, axis=0)
-    }
+    return (
+        np.round(np.mean(scores), 5),
+        np.round(np.median(scores), 5),
+        np.round(np.std(scores), 5),
+        np.round(np.min(scores), 5),
+        np.round(np.max(scores), 5)
+    )
     
 
 def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ngram=2, times=100, fout=sys.stdout):
@@ -22,20 +26,30 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
     gen.fit(train_path)
 
     evaluator = DiminutiveEvaluator(gen, ethalone_path)
-    print(f'Evaluate generator with ngram={ngram}:', file=fout)
+    print(f'Evaluate generator with ngram={ngram}, {times} iterations', file=fout)
+    print(get_headers(), file=fout)
 
-    train_scores, test_scores = [], []
+    train_scores, train_euristics, test_scores, test_euristics = [], [], [], []
     for i in range(times):
         _, _, _, accuracy, euristics = evaluator.evaluate(train_sample.name)
-        train_scores.append([accuracy, euristics])
+        train_scores.append(accuracy)
+        train_euristics.append(euristics)
         _, _, _, accuracy, euristics = evaluator.evaluate(test_sample.name)
-        test_scores.append([accuracy, euristics])
+        test_scores.append(accuracy)
+        test_euristics.append(euristics)
 
         if i % 10 == 0:
             print(f'Processed {i} times...')
 
-    print(f'Train data (Statistics for accuracy & euristics, %): {compute_statistics(train_scores)}', file=fout)
-    print(f'Test data (Statistics for accuracy & euristics, %): {compute_statistics(test_scores)}', file=fout)
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}'
+          .format('Train data', *compute_statistics(train_scores)), file=fout)
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}'
+          .format('Test data', *compute_statistics(test_scores)), file=fout)
+
+    print(file=fout)
+    print(f'Euristics for train data: {np.round(np.mean(train_euristics), 5)}', file=fout)
+    print(f'Euristics for test data: {np.round(np.mean(test_euristics), 5)}', file=fout)
+    print(file=fout)
 
 
 if __name__ == '__main__':
@@ -46,7 +60,7 @@ if __name__ == '__main__':
     train = read_samples(CORPUS_TRAIN, ['name', 'dim'])
     test = read_samples(CORPUS_TEST, ['name'])
 
-    with open('stats.out', 'w', encoding='utf-8') as fout:
+    with open('stats_100.out', 'w', encoding='utf-8') as fout:
         for ngram_size in (2, 3):
-            evaluate_stats_data(CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=fout)
+            evaluate_stats_data(CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=fout, times=100)
             print(file=fout)
