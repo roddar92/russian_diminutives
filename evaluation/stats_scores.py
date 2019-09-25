@@ -9,7 +9,8 @@ from utils.dim_io import read_samples
 
 
 def get_headers():
-    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format('', 'Mean', 'Median', 'Std', 'Min', 'Max', 'CI 95%')
+    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
+        '', 'Mean', 'Median', 'Std', 'Min', 'Max', 'CI 95% lower', 'CI 95% upper')
 
 
 def mean_confidence_interval(sample, confidence=0.95):
@@ -28,7 +29,7 @@ def compute_statistics(scores):
         np.round(np.std(scores), 5),
         np.round(np.min(scores), 5),
         np.round(np.max(scores), 5),
-        (np.round(lower, 5), np.round(upper, 5))
+        np.round(lower, 5), np.round(upper, 5)
     )
     
 
@@ -52,9 +53,9 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
         if i % 10 == 0:
             print(f'Processed {i} times...')
 
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
           .format('Train data', *compute_statistics(train_scores)), file=fout)
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
           .format('Test data', *compute_statistics(test_scores)), file=fout)
 
     print(file=fout)

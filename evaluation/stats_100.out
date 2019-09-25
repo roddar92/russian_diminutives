@@ -1,18 +1,18 @@
 Evaluate generator with ngram=2, 100 iterations
-                Mean       Median     Std        Min        Max       
-Train data      0.83476    0.834      0.00977    0.808      0.86      
-Test data       0.88111    0.88095    0.02036    0.81746    0.92857   
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.8327     0.83356    0.01043    0.80826    0.86418    0.83062    0.83478   
+Test data       0.88508    0.88889    0.02062    0.83333    0.93651    0.88097    0.88919   
 
-Euristics for train data: 0.09333
+Euristics for train data: 0.09321
 Euristics for test data: 0.09524
 
 
 Evaluate generator with ngram=3, 100 iterations
-                Mean       Median     Std        Min        Max       
-Train data      0.93165    0.932      0.00715    0.91333    0.94933   
-Test data       0.92167    0.92063    0.01542    0.88889    0.96825   
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.93172    0.93209    0.00662    0.91478    0.94674    0.9304     0.93304   
+Test data       0.92373    0.92063    0.01742    0.87302    0.96825    0.92026    0.9272    
 
-Euristics for train data: 0.188
+Euristics for train data: 0.18775
 Euristics for test data: 0.4127
 
 
