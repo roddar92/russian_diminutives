@@ -1,23 +1,34 @@
 import numpy as np
 import sys
 
+from scipy.stats import sem, t
+
 from evaluation.eval import DiminutiveEvaluator
 from rnn.diminutive_generator import DiminutiveGenerator
 from utils.dim_io import read_samples
 
 
 def get_headers():
-    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}".format('', 'Mean', 'Median', 'Std', 'Min', 'Max')
+    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format('', 'Mean', 'Median', 'Std', 'Min', 'Max', 'CI 95%')
+
+
+def mean_confidence_interval(sample, confidence=0.95):
+    n = len(sample)
+    m, se = np.mean(sample), sem(sample)
+    h = se * t.ppf((1 + confidence) / 2., n - 1)
+    return m, m - h, m + h
 
 
 def compute_statistics(scores):
     scores = np.array(scores)
+    m, lower, upper = mean_confidence_interval(scores)
     return (
-        np.round(np.mean(scores), 5),
+        np.round(m, 5),
         np.round(np.median(scores), 5),
         np.round(np.std(scores), 5),
         np.round(np.min(scores), 5),
-        np.round(np.max(scores), 5)
+        np.round(np.max(scores), 5),
+        (np.round(lower, 5), np.round(upper, 5))
     )
     
 
@@ -41,9 +52,9 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
         if i % 10 == 0:
             print(f'Processed {i} times...')
 
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}'
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
           .format('Train data', *compute_statistics(train_scores)), file=fout)
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10}'
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
           .format('Test data', *compute_statistics(test_scores)), file=fout)
 
     print(file=fout)
