@@ -213,7 +213,20 @@ def plot_suffixes_dustribution(data):
     sns.barplot(x='suffix count', y='last letters', data=df_viz, color='g')
     sns.despine(left=True, bottom=True)
     plt.show()
-
+    
+    
+def plot_diminutie_suffixes(data):
+    name_suff, dim_suff, dim_count = [], [], []
+    
+    for _, row in create_top_n(data, topn=5).iterrows():
+        for dim, cnt in dist[row['last letters']].items():
+            name_suff.append(row['last letters'])
+            dim_suff.append(dim)
+            dim_count.append(cnt)
+        
+    df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff, 'dimin_count': dim_count})
+    sns.factorplot('dimin_suffix', 'dimin_count', col='name_suffix', data=df_dims, kind='bar')
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -225,9 +238,4 @@ if __name__ == '__main__':
     
     plot_top_suffixes(dist)
     plot_suffixes_dustribution(dist)
-    
-    sns.set_color_codes("pastel")
-    for _, row in create_top_n(dist, topn=5).iterrows():
-        d = list(dist[row['last letters']].keys())
-        sns.distplot(d, kde=False, rug=True, color='r');
-        plt.show()
+    plot_top_diminutive_suffixes(dist)
