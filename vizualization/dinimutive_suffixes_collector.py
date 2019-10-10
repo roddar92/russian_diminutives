@@ -216,16 +216,16 @@ def plot_suffixes_dustribution(data):
     
     
 def plot_diminutie_suffixes(data):
-    name_suff, dim_suff, dim_count = [], [], []
+    name_suff, dim_suff = [], []
     
     for _, row in create_top_n(data, topn=5).iterrows():
         for dim, cnt in data[row['last letters']].items():
-            name_suff.append(row['last letters'])
-            dim_suff.append(dim)
-            dim_count.append(cnt)
+            for _ in range(cnt):
+                name_suff.append(row['last letters'])
+                dim_suff.append(dim)
         
-    df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff, 'dimin_count': dim_count})
-    sns.factorplot('dimin_suffix', 'dimin_count', col='name_suffix', data=df_dims, kind='bar')
+    df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff})
+    sns.catplot(x='dimin_suffix', col='name_suffix', data=df_dims, kind='count')
     plt.show()
 
 
