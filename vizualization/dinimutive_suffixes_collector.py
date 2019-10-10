@@ -197,7 +197,7 @@ def create_top_n(data, topn, diminutives=False):
 def plot_top_suffixes(data, topn=20, diminutives=False):
     df_top_n = create_top_n(data, topn=topn, diminutives=diminutives)
     sns.set_color_codes("pastel")
-    sns.barplot(x='suffix count', y='last letters', data=df_viz, color='g')
+    sns.barplot(x='suffix count', y='last letters', data=df_top_n, color='g')
     sns.despine(left=True, bottom=True)
     plt.show()
 
@@ -215,17 +215,18 @@ def plot_suffixes_dustribution(data):
     plt.show()
     
     
-def plot_diminutie_suffixes(data):
-    name_suff, dim_suff = [], []
+def plot_top_diminutive_suffixes(data):
+    name_suff, dim_suff, counts = [], [], []
     
     for _, row in create_top_n(data, topn=5).iterrows():
         for dim, cnt in data[row['last letters']].items():
-            for _ in range(cnt):
-                name_suff.append(row['last letters'])
-                dim_suff.append(dim)
+            name_suff.append(row['last letters'])
+            dim_suff.append(dim)
+            counts.append(cnt)
         
-    df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff})
-    sns.catplot(x='dimin_suffix', col='name_suffix', data=df_dims, kind='count')
+    df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff, 'counts': counts})
+    sns.catplot(x='counts', y='dimin_suffix', col='name_suffix', data=df_dims,
+                saturation=.5, kind='bar', ci=None, aspect=.6, orient='h')
     plt.show()
 
 
@@ -236,6 +237,6 @@ if __name__ == '__main__':
     dist = get_diminutive_suffixes(df)
     simplify_suffixes(dist)
     
-    plot_top_suffixes(dist)
-    plot_suffixes_dustribution(dist)
+    # plot_top_suffixes(dist)
+    # plot_suffixes_dustribution(dist)
     plot_top_diminutive_suffixes(dist)
