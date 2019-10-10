@@ -219,7 +219,7 @@ def plot_diminutie_suffixes(data):
     name_suff, dim_suff, dim_count = [], [], []
     
     for _, row in create_top_n(data, topn=5).iterrows():
-        for dim, cnt in dist[row['last letters']].items():
+        for dim, cnt in data[row['last letters']].items():
             name_suff.append(row['last letters'])
             dim_suff.append(dim)
             dim_count.append(cnt)
