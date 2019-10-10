@@ -179,7 +179,7 @@ def simplify_suffixes(dist):
             del dist[ngram]
             
             
-def create_top_n(data, topn, diminutives):
+def create_top_n(data, topn, diminutives=False):
     labels, counts = [], []
     
     if diminutives:
@@ -189,7 +189,7 @@ def create_top_n(data, topn, diminutives):
         
     for ngram, dimin_suffixes in iterable_collection:
         labels.append(ngram)
-        counts.append(len(dimin_suffixes))
+        counts.append(dimin_suffixes if diminutives else len(dimin_suffixes))
 
     return pd.DataFrame({'last letters': labels, 'suffix count': counts})
 
