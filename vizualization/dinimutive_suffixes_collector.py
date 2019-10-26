@@ -215,7 +215,7 @@ def plot_suffixes_dustribution(data):
     plt.show()
     
     
-def plot_top_diminutive_suffixes(data):
+def plot_top_diminutive_suffixes(data, use_cat_plot=False):
     name_suff, dim_suff, counts = [], [], []
     
     for _, row in create_top_n(data, topn=5).iterrows():
@@ -225,9 +225,14 @@ def plot_top_diminutive_suffixes(data):
             counts.append(cnt)
         
     df_dims = pd.DataFrame({'name_suffix': name_suff, 'dimin_suffix': dim_suff, 'counts': counts})
-    sns.catplot(x='counts', y='dimin_suffix', col='name_suffix', data=df_dims,
-                saturation=.5, kind='bar', ci=None, aspect=.6, orient='h')
-    plt.show()
+    if use_cat_plot:
+        sns.catplot(x='counts', y='dimin_suffix', col='name_suffix', data=df_dims,
+                    saturation=.5, kind='bar', ci=None, aspect=.6, orient='h')
+    else:
+        for suf in pd.unique(df_dims.name_suffix):
+            sns.barplot(x="counts", y="dimin_suffix", data=df_dims[df_dims.name_suffix == suf]).set_title(suf)
+            plt.show()
+
 
 
 if __name__ == '__main__':
