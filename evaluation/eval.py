@@ -1,5 +1,7 @@
 import pandas as pd
 
+from sklearn.metrics import precision_score, recall_score, f1_score
+
 from evaluation.collect_ethalone import EthaloneCorporaCollector
 from rnn.diminutive_generator import DiminutiveGenerator
 from utils.dim_io import read_samples
@@ -13,7 +15,7 @@ class DiminutiveEvaluator:
         self.ethalone_corpus.columns = ['name', 'dim_form']
 
     def evaluate(self, sample):
-        # todo: calculate count of calls into self._find_default_transition() method with decorator
+        # euristics - count of calls into self._find_default_transition() method with decorator
         correct, same, euristics, total = 0, 0, 0, 0
         for name in sample:
             dim_flag = self.generator.generate_diminutive(name, print_euristic_flag=True)
@@ -41,6 +43,27 @@ class DiminutiveEvaluator:
 
         return total, correct, same, correct / total, euristics / total
 
+    def evaluate_precision_recall_fscore(self, sample):
+        y_true, y_pred = [1] * len(sample), []
+        for name in sample:
+            dim = self.generator.generate_diminutive(name)
+
+            if dim == name:
+                y_pred.append(0)
+                continue
+
+            dims = self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]
+            if len(dims.values) > 0 and dim in eval(dims.values[0]):
+                y_pred.append(1)
+            else:
+                base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
+                if any(dim == base + ending for ending in dim_endings):
+                    y_pred.append(1)
+                else:
+                    y_pred.append(0)
+
+        return precision_score(y_true, y_pred), recall_score(y_true, y_pred), f1_score(y_true, y_pred)
+
 
 def evaluate_data(ethalone_path, train_path, train_sample, test_sample, ngram=2):
     gen = DiminutiveGenerator(ngram=ngram)
@@ -48,8 +71,17 @@ def evaluate_data(ethalone_path, train_path, train_sample, test_sample, ngram=2)
     print(f'Evaluate generator with ngram={ngram}:')
     evaluator = DiminutiveEvaluator(gen, ethalone_path)
 
-    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(train_sample.name)}')
-    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): {evaluator.evaluate(test_sample.name)}')
+    print(f'Train data (total, correct, same forms, accuracy, % with used manual euristics): '
+          f'{evaluator.evaluate(train_sample.name)}')
+    print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): '
+          f'{evaluator.evaluate(test_sample.name)}')
+
+    p, r, f1 = evaluator.evaluate_precision_recall_fscore(train_sample.name)
+    print('Train data:')
+    print(f'Precision: {p}, Recall: {r}, F-score: {f1}')
+    p, r, f1 = evaluator.evaluate_precision_recall_fscore(test_sample.name)
+    print('Test data:')
+    print(f'Precision: {p}, Recall: {r}, F-score: {f1}')
 
     
 if __name__ == '__main__':
