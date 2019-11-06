@@ -155,8 +155,7 @@ def simplify_suffixes(dist):
     for ngram in list(dist.keys()):
         if ngram.endswith('я') and ngram[-2] in 'аеиоу':
             del dist[ngram]
-            
-            
+
     union = [dim_set for ngram, dim_set in dist.items() if ngram.endswith('$') and ngram[-2] not in 'аеиоуя']
     dist['<non-vowel>$'] = union_dicts(union)
     
@@ -202,7 +201,7 @@ def plot_top_suffixes(data, topn=20, diminutives=False):
     plt.show()
 
 
-def plot_suffixes_dustribution(data):
+def plot_suffixes_distribution(data):
     labels, counts = [], []
     for ngram, dimin_suffixes in sorted(data.items()):
         labels.append(ngram)
@@ -229,19 +228,19 @@ def plot_top_diminutive_suffixes(data, use_cat_plot=False):
         sns.catplot(x='counts', y='dimin_suffix', col='name_suffix', data=df_dims,
                     saturation=.5, kind='bar', ci=None, aspect=.6, orient='h')
     else:
-        for suf in pd.unique(df_dims.name_suffix):
-            sns.barplot(x="counts", y="dimin_suffix", data=df_dims[df_dims.name_suffix == suf]).set_title(suf)
-            plt.show()
-
+        for suff in pd.unique(df_dims.name_suffix):
+            sns.barplot(x="counts", y="dimin_suffix", data=df_dims[df_dims.name_suffix == suff]).set_title(suff)
+            # plt.show()
+            plt.savefig(f"{suff}.svg")
 
 
 if __name__ == '__main__':
     PATH_TO_SAMPLES = '../data/train.tsv'
 
     df = read_samples(PATH_TO_SAMPLES, columns=['Name', 'Diminutive'])
-    dist = get_diminutive_suffixes(df)
-    simplify_suffixes(dist)
+    distrib = get_diminutive_suffixes(df)
+    simplify_suffixes(distrib)
     
     # plot_top_suffixes(dist)
-    # plot_suffixes_dustribution(dist)
-    plot_top_diminutive_suffixes(dist)
+    # plot_suffixes_distribution(dist)
+    plot_top_diminutive_suffixes(distrib)
