@@ -229,9 +229,10 @@ def plot_top_diminutive_suffixes(data, use_cat_plot=False):
                     saturation=.5, kind='bar', ci=None, aspect=.6, orient='h')
     else:
         for suff in pd.unique(df_dims.name_suffix):
-            sns.barplot(x="counts", y="dimin_suffix", data=df_dims[df_dims.name_suffix == suff]).set_title(suff)
+            ax = sns.barplot(x="dimin_suffix", y="counts", data=df_dims[df_dims.name_suffix == suff]).set_title(suff)
+            ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
             # plt.show()
-            plt.savefig(f"{suff}.svg")
+            ax.savefig(f"{suff}.svg")
 
 
 if __name__ == '__main__':
