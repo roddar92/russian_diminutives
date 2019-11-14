@@ -1,7 +1,7 @@
 Evaluate generator with ngram=2, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.8327     0.83356    0.01043    0.80826    0.86418    0.83062    0.83478   
-Test data       0.88508    0.88889    0.02062    0.83333    0.93651    0.88097    0.88919   
+Train data      0.83557    0.83489    0.00861    0.81225    0.85619    0.83385    0.83728   
+Test data       0.88452    0.88889    0.01987    0.83333    0.92857    0.88056    0.88849   
 
 Euristics for train data: 0.09321
 Euristics for test data: 0.09524
@@ -9,10 +9,17 @@ Euristics for test data: 0.09524
 
 Evaluate generator with ngram=3, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.93172    0.93209    0.00662    0.91478    0.94674    0.9304     0.93304   
-Test data       0.92373    0.92063    0.01742    0.87302    0.96825    0.92026    0.9272    
+Train data      0.93053    0.93142    0.00766    0.90013    0.94541    0.929      0.93206   
+Test data       0.92611    0.92857    0.01414    0.88889    0.96032    0.92329    0.92893   
 
 Euristics for train data: 0.18775
 Euristics for test data: 0.4127
 
 
+Test Hypothesis of variances and means equation for train data
+F-test score and p-value: 1.2617304376968153, 0.8754185909626478
+T-test score and p-value: -81.98910289841184, 9.064125558127176e-155
+
+Test Hypothesis of variances and means equation for test data
+F-test score and p-value: 1.9746998960269702, 0.9995883310327509
+T-test score and p-value: -16.96800117104386, 1.844088465712297e-40

@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-from scipy.stats import sem, t
+from scipy.stats import f, ttest_ind, sem, t
 
 from evaluation.eval import DiminutiveEvaluator
 from rnn.diminutive_generator import DiminutiveGenerator
@@ -18,6 +18,13 @@ def mean_confidence_interval(sample, confidence=0.95):
     m, se = np.mean(sample), sem(sample)
     h = se * t.ppf((1 + confidence) / 2., n - 1)
     return m, m - h, m + h
+
+
+def f_test(a, b):
+    a, b = np.array(a), np.array(b)
+    score = np.var(a) / np.var(b)
+    df1, df2 = len(a) - 1, len(b) - 1
+    return score, f.cdf(score, df1, df2)
 
 
 def compute_statistics(scores):
@@ -63,6 +70,18 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
     print(f'Euristics for test data: {np.round(np.mean(test_euristics), 5)}', file=fout)
     print(file=fout)
 
+    return train_scores, test_scores
+
+
+def check_hypothesis_for_ngrams(acc_bigram, accur_trigram, alpha=0.05, is_train=True, foutput=sys.stdout):
+    label = 'train' if is_train else 'test'
+    print(f'Test Hypothesis of variances and means equation for {label} data', file=foutput)
+    score, pvalue = f_test(acc_bigram, accur_trigram)
+    print(f'F-test score and p-value: {score}, {pvalue}', file=foutput)
+    equal_var = pvalue > alpha
+    score, pvalue = ttest_ind(acc_bigram, accur_trigram, equal_var=equal_var)
+    print(f'T-test score and p-value: {score}, {pvalue}', file=foutput)
+
 
 if __name__ == '__main__':
     CORPUS_TRAIN = '../data/train.tsv'
@@ -72,7 +91,20 @@ if __name__ == '__main__':
     train = read_samples(CORPUS_TRAIN, ['name', 'dim'])
     test = read_samples(CORPUS_TEST, ['name'])
 
-    with open('stats_100.out', 'w', encoding='utf-8') as fout:
+    samples = {}
+    with open('stats_100.out', 'w', encoding='utf-8') as f:
+        train_label, test_label = 'train', 'test'
         for ngram_size in (2, 3):
-            evaluate_stats_data(CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=fout, times=100)
-            print(file=fout)
+            train_vals, test_vals = evaluate_stats_data(
+                CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=f, times=100)
+            samples[(ngram_size, train_label)] = train_vals
+            samples[(ngram_size, test_label)] = test_vals
+            print(file=f)
+
+        train_bigram, train_trigram = samples[(2, train_label)], samples[(3, train_label)]
+        check_hypothesis_for_ngrams(train_bigram, train_trigram, alpha=0.05, foutput=f)
+        print(file=f)
+
+        test_bigram, test_trigram = samples[(2, test_label)], samples[(3, test_label)]
+        check_hypothesis_for_ngrams(test_bigram, test_trigram, alpha=0.05, is_train=False, foutput=f)
+        print(file=f)
