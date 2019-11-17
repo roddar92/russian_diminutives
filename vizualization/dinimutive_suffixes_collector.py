@@ -47,8 +47,9 @@ def simplify_suffixes(dist):
     del dist['еша']
     del dist['иша']
 
-    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('оша', 'юша', 'яша')]
-    dist['(о|ю|я)ша'] = union_dicts(union)
+    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('ёша', 'оша', 'юша', 'яша')]
+    dist['(ё|о|ю|я)ша'] = union_dicts(union)
+    del dist['ёша']
     del dist['оша']
     del dist['юша']
     del dist['яша']
@@ -70,12 +71,13 @@ def simplify_suffixes(dist):
     del dist['уля']
     del dist['юля']
 
-    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('аня', 'еня', 'ёня', 'иня', 'уня')]
+    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('аня', 'еня', 'ёня', 'иня', 'оня', 'уня')]
     dist['<vowel>ня'] = union_dicts(union)
     del dist['аня']
     del dist['еня']
     del dist['ёня']
     del dist['иня']
+    del dist['оня']
     del dist['уня']
     
     union = [dim_set for ngram, dim_set in dist.items()
@@ -98,25 +100,39 @@ def simplify_suffixes(dist):
     del dist['отя']
     del dist['утя']
 
+    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('адя', 'едя', 'одя')]
+    dist['<vowel>дя'] = union_dicts(union)
+    del dist['адя']
+    del dist['едя']
+    del dist['одя']
+
+    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('ала', 'ела', 'ила')]
+    dist['<vowel>ла'] = union_dicts(union)
+    del dist['ала']
+    del dist['ела']
+    del dist['ила']
+
+    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('ара', 'ера', 'ира', 'ора', 'юра')]
+    dist['<vowel>ра'] = union_dicts(union)
+    del dist['ара']
+    del dist['ера']
+    del dist['ора']
+    del dist['ира']
+    del dist['юра']
+
     union = [dim_set for ngram, dim_set in dist.items()
-             if ngram in ('ана', 'ена', 'ёна', 'йна', 'ина', 'нна', 'уна', 'юна')]
+             if ngram in ('ана', 'ена', 'ёна', 'йна', 'ина', 'она', 'нна', 'уна', 'юна', 'яна')]
     dist['<vowel>на'] = union_dicts(union)
     del dist['ана']
     del dist['ена']
     del dist['йна']
     del dist['ёна']
     del dist['ина']
+    del dist['она']
     del dist['нна']
     del dist['уна']
     del dist['юна']
-
-    union = [dim_set for ngram, dim_set in dist.items() if ngram in ('ара', 'ера', 'ира', 'ора', 'ура')]
-    dist['<vowel>ра'] = union_dicts(union)
-    del dist['ара']
-    del dist['ера']
-    del dist['ира']
-    del dist['ора']
-    del dist['ура']
+    del dist['яна']
     
     union = [dim_set for ngram, dim_set in dist.items() if ngram in ('аса', 'еса', 'иса')]
     dist['<vowel>са'] = union_dicts(union)
@@ -243,6 +259,6 @@ if __name__ == '__main__':
     distrib = get_diminutive_suffixes(df)
     simplify_suffixes(distrib)
     
-    # plot_top_suffixes(dist)
-    # plot_suffixes_distribution(dist)
+    # plot_top_suffixes(distrib)
+    # plot_suffixes_distribution(distrib)
     plot_top_diminutive_suffixes(distrib)
