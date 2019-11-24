@@ -1,25 +1,28 @@
 Evaluate generator with ngram=2, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.83557    0.83489    0.00861    0.81225    0.85619    0.83385    0.83728   
-Test data       0.88452    0.88889    0.01987    0.83333    0.92857    0.88056    0.88849   
+Train data      0.83087    0.83069    0.01014    0.80688    0.8545     0.82885    0.8329    
+Test data       0.85922    0.86328    0.02633    0.78906    0.91406    0.85397    0.86447   
 
-Euristics for train data: 0.09321
-Euristics for test data: 0.09524
+Euristics for train data: 0.09259
+Euristics for test data: 0.09375
 
 
 Evaluate generator with ngram=3, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.93053    0.93142    0.00766    0.90013    0.94541    0.929      0.93206   
-Test data       0.92611    0.92857    0.01414    0.88889    0.96032    0.92329    0.92893   
+Train data      0.92529    0.92593    0.00768    0.90608    0.94444    0.92376    0.92682   
+Test data       0.90648    0.90625    0.01681    0.86719    0.94531    0.90313    0.90984   
 
-Euristics for train data: 0.18775
-Euristics for test data: 0.4127
+Euristics for train data: 0.18651
+Euristics for test data: 0.40625
 
 
 Test Hypothesis of variances and means equation for train data
-F-test score and p-value: 1.2617304376968153, 0.8754185909626478
-T-test score and p-value: -81.98910289841184, 9.064125558127176e-155
+Kolmogorov-Smirnov test for the same samples (score, p-value): 1.0, 1.5505547466854487e-45
+F-test for varianves (score, p-value): 1.7426948436981173, 0.9969177788164536
+T-test score and p-value: -73.84137931034475, 4.7163226423158475e-146
 
 Test Hypothesis of variances and means equation for test data
-F-test score and p-value: 1.9746998960269702, 0.9995883310327509
-T-test score and p-value: -16.96800117104386, 1.844088465712297e-40
+Kolmogorov-Smirnov test for the same samples (score, p-value): 0.75, 8.440139398835656e-26
+F-test for varianves (score, p-value): 2.4539543323756243, 0.9999941564400564
+T-test score and p-value: -15.054502046231914, 1.2120178846329324e-34
+

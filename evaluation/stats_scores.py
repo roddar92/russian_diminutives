@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-from scipy.stats import f, ttest_ind, sem, t
+from scipy.stats import f, ttest_ind, sem, t, ks_2samp
 
 from evaluation.eval import DiminutiveEvaluator
 from rnn.diminutive_generator import DiminutiveGenerator
@@ -76,8 +76,10 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
 def check_hypothesis_for_ngrams(acc_bigram, accur_trigram, alpha=0.05, is_train=True, foutput=sys.stdout):
     label = 'train' if is_train else 'test'
     print(f'Test Hypothesis of variances and means equation for {label} data', file=foutput)
+    score, pvalue = ks_2samp(acc_bigram, accur_trigram)
+    print(f'Kolmogorov-Smirnov test for the same samples (score, p-value): {score}, {pvalue}', file=foutput)
     score, pvalue = f_test(acc_bigram, accur_trigram)
-    print(f'F-test score and p-value: {score}, {pvalue}', file=foutput)
+    print(f'F-test for varianves (score, p-value): {score}, {pvalue}', file=foutput)
     equal_var = pvalue > alpha
     score, pvalue = ttest_ind(acc_bigram, accur_trigram, equal_var=equal_var)
     print(f'T-test score and p-value: {score}, {pvalue}', file=foutput)
@@ -92,19 +94,19 @@ if __name__ == '__main__':
     test = read_samples(CORPUS_TEST, ['name'])
 
     samples = {}
-    with open('stats_100.out', 'w', encoding='utf-8') as f:
+    with open('stats_100.out', 'w', encoding='utf-8') as fo:
         train_label, test_label = 'train', 'test'
         for ngram_size in (2, 3):
             train_vals, test_vals = evaluate_stats_data(
-                CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=f, times=100)
+                CORPUS_ETHALONE, CORPUS_TRAIN, train, test, ngram=ngram_size, fout=fo, times=100)
             samples[(ngram_size, train_label)] = train_vals
             samples[(ngram_size, test_label)] = test_vals
-            print(file=f)
+            print(file=fo)
 
         train_bigram, train_trigram = samples[(2, train_label)], samples[(3, train_label)]
-        check_hypothesis_for_ngrams(train_bigram, train_trigram, alpha=0.05, foutput=f)
-        print(file=f)
+        check_hypothesis_for_ngrams(train_bigram, train_trigram, alpha=0.05, foutput=fo)
+        print(file=fo)
 
         test_bigram, test_trigram = samples[(2, test_label)], samples[(3, test_label)]
-        check_hypothesis_for_ngrams(test_bigram, test_trigram, alpha=0.05, is_train=False, foutput=f)
-        print(file=f)
+        check_hypothesis_for_ngrams(test_bigram, test_trigram, alpha=0.05, is_train=False, foutput=fo)
+        print(file=fo)

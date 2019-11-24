@@ -1,11 +1,25 @@
 N-gram=2
+Iteration 1
 Train data:
 Precision: 1.0, Recall: 0.8402130492676432, F-score: 0.9131693198263386
 Test data:
 Precision: 1.0, Recall: 0.8253968253968254, F-score: 0.9043478260869565
+=============
+Iteration 2
+Train data:
+Precision: 1.0, Recall: 0.8187830687830688, F-score: 0.9003636363636364
+Test data:
+Precision: 1.0, Recall: 0.875, F-score: 0.9333333333333333
 
 N-gram=3
+Iteration 1
 Train data:
 Precision: 1.0, Recall: 0.9307589880159787, F-score: 0.9641379310344826
 Test data:
 Precision: 1.0, Recall: 0.9126984126984127, F-score: 0.9543568464730291
+=============
+Iteration 2
+Train data:
+Precision: 1.0, Recall: 0.9206349206349206, F-score: 0.9586776859504132
+Test data:
+Precision: 1.0, Recall: 0.8984375, F-score: 0.9465020576131687
