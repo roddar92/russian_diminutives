@@ -1,28 +1,28 @@
 Evaluate generator with ngram=2, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.82978    0.8292     0.01051    0.80704    0.85658    0.82768    0.83187   
-Test data       0.86515    0.86364    0.02196    0.78788    0.91667    0.86077    0.86953   
+Train data      0.85383    0.85441    0.0102     0.82886    0.8825     0.8518     0.85587   
+Test data       0.88263    0.8797     0.02037    0.81203    0.93985    0.87857    0.88669   
 
-Euristics for train data: 0.09778
-Euristics for test data: 0.09848
+Euristics for train data: 0.106
+Euristics for test data: 0.11278
 
 
 Evaluate generator with ngram=3, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.92373    0.92308    0.00738    0.90613    0.94524    0.92226    0.9252    
-Test data       0.90606    0.90909    0.01553    0.86364    0.93939    0.90296    0.90916   
+Train data      0.94393    0.94381    0.00609    0.93103    0.96169    0.94272    0.94515   
+Test data       0.93158    0.93233    0.01502    0.89474    0.96992    0.92858    0.93457   
 
-Euristics for train data: 0.19296
-Euristics for test data: 0.40152
+Euristics for train data: 0.20562
+Euristics for test data: 0.4812
 
 
 Test Hypothesis of variances and means equation for train data
 Kolmogorov-Smirnov test for the same samples (score, p-value): 1.0, 1.5505547466854487e-45
-F-test for varianves (score, p-value): 2.02639226691612, 0.9997391700534102
-T-test score and p-value: -72.77794121307842, 7.531896388313191e-145
+F-test for variances (score, p-value): 2.8047252747252753, 0.9999997291674836
+T-test score and p-value: -75.45052450472062, 7.640856932548848e-148
 
 Test Hypothesis of variances and means equation for test data
-Kolmogorov-Smirnov test for the same samples (score, p-value): 0.75, 8.440139398835656e-26
-F-test for varianves (score, p-value): 1.9999999999999998, 0.9996706584544837
-T-test score and p-value: -15.136521585697524, 6.79886322980727e-35
+Kolmogorov-Smirnov test for the same samples (score, p-value): 0.86, 8.65510764431275e-34
+F-test for variances (score, p-value): 1.8390726817042597, 0.9986525211307806
+T-test score and p-value: -19.245264426916957, 3.2025796853383596e-47
 

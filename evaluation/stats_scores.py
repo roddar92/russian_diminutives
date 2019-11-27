@@ -79,7 +79,7 @@ def check_hypothesis_for_ngrams(acc_bigram, accur_trigram, alpha=0.05, is_train=
     score, pvalue = ks_2samp(acc_bigram, accur_trigram)
     print(f'Kolmogorov-Smirnov test for the same samples (score, p-value): {score}, {pvalue}', file=foutput)
     score, pvalue = f_test(acc_bigram, accur_trigram)
-    print(f'F-test for varianves (score, p-value): {score}, {pvalue}', file=foutput)
+    print(f'F-test for variances (score, p-value): {score}, {pvalue}', file=foutput)
     equal_var = pvalue > alpha
     score, pvalue = ttest_ind(acc_bigram, accur_trigram, equal_var=equal_var)
     print(f'T-test score and p-value: {score}, {pvalue}', file=foutput)
