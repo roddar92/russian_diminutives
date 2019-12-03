@@ -1,5 +1,6 @@
 import pandas as pd
 
+from collections import defaultdict
 from sklearn.metrics import precision_score, recall_score, f1_score
 
 from evaluation.collect_ethalone import EthaloneCorporaCollector
@@ -42,6 +43,30 @@ class DiminutiveEvaluator:
             euristics += int(flag)
 
         return total, correct, same, correct / total, euristics / total
+    
+    def is_diminutive_correct(self, name, diminutive):
+        if dim == name:
+            return False
+
+        dims = self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]
+        if len(dims.values) > 0 and dim in eval(dims.values[0]):
+            return True
+        else:
+            base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
+            return any(dim == base + ending for ending in dim_endings)
+    
+    def evaluate_vocabulary_volume(self, sample, times=50):
+        diminutive_vocabulary = defaultdict(set)
+        
+        for i in range(times):
+            for name in sample:
+                diminutive_vocabulary[name].add(self.generator.generate_diminutive(name))
+            if i % 10 == 0:
+                print(f'Processed {i} times...')
+                
+        print(f'Vocabulary volume with all forms is: {sum(len(l) for l in diminutive_vocabulary.values())}')
+        print(f'Vocabulary volume with correct forms is: {sum(self.is_diminutive_correct(w) for l in diminutive_vocabulary.values() for w in l)}')
+        return diminutive_vocabulary
 
     def evaluate_precision_recall_fscore(self, sample):
         y_true, y_pred = [1] * len(sample), []
