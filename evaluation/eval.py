@@ -37,23 +37,23 @@ class DiminutiveEvaluator:
                 base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
                 if any(dim == base + ending for ending in dim_endings):
                     correct += 1
-                #else:
-                #    print(name, dim, base, dim_endings)
+                # else:
+                #     print(name, dim, base, dim_endings)
             total += 1
             euristics += int(flag)
 
         return total, correct, same, correct / total, euristics / total
     
     def is_diminutive_correct(self, name, diminutive):
-        if dim == name:
+        if diminutive == name:
             return False
 
         dims = self.ethalone_corpus['dim_form'][self.ethalone_corpus['name'] == name]
-        if len(dims.values) > 0 and dim in eval(dims.values[0]):
+        if len(dims.values) > 0 and diminutive in eval(dims.values[0]):
             return True
         else:
             base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
-            return any(dim == base + ending for ending in dim_endings)
+            return any(diminutive == base + ending for ending in dim_endings)
     
     def evaluate_vocabulary_volume(self, sample, times=50):
         diminutive_vocabulary = defaultdict(set)
@@ -65,7 +65,8 @@ class DiminutiveEvaluator:
                 print(f'Processed {i} times...')
                 
         print(f'Vocabulary volume with all forms is: {sum(len(l) for l in diminutive_vocabulary.values())}')
-        print(f'Vocabulary volume with correct forms is: {sum(self.is_diminutive_correct(w) for l in diminutive_vocabulary.values() for w in l)}')
+        print(f'Vocabulary volume with correct forms is: '
+              f'{sum(self.is_diminutive_correct(w) for l in diminutive_vocabulary.values() for w in l)}')
         return diminutive_vocabulary
 
     def evaluate_precision_recall_fscore(self, sample):
@@ -114,9 +115,9 @@ if __name__ == '__main__':
     CORPUS_TEST = '../data/test.tsv'
     CORPUS_ETHALONE = '../data/ethalone.tsv'
 
-    train_sample = read_samples(CORPUS_TRAIN, ['name', 'dim'])
-    test_sample = read_samples(CORPUS_TEST, ['name'])
+    train_data = read_samples(CORPUS_TRAIN, ['name', 'dim'])
+    test_data = read_samples(CORPUS_TEST, ['name'])
 
     for ngram_size in (2, 3):
-        evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_sample, test_sample, ngram=ngram_size)
+        evaluate_data(CORPUS_ETHALONE, CORPUS_TRAIN, train_data, test_data, ngram=ngram_size)
         print()
