@@ -1,28 +1,60 @@
 Evaluate generator with ngram=2, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.86033    0.85951    0.00893    0.82759    0.88506    0.85855    0.86211   
-Test data       0.88662    0.88722    0.01772    0.84962    0.93233    0.88308    0.89015   
+Train data      0.86381    0.86352    0.0096     0.84311    0.88648    0.8619     0.86573   
+Test data       0.88368    0.88722    0.02284    0.82707    0.93985    0.87913    0.88824   
 
-Euristics for train data: 0.106
-Euristics for test data: 0.11278
+
+Euristics for train data: 0.10587
+Euristics for test data: 0.1203
+
+Precision
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      1.0        1.0        0.0        1.0        1.0        1.0        1.0       
+Test data       1.0        1.0        0.0        1.0        1.0        1.0        1.0       
+
+Recall
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.86101    0.86224    0.00919    0.83801    0.88265    0.85918    0.86284   
+Test data       0.88203    0.8797     0.02252    0.83459    0.93985    0.87754    0.88652   
+
+F-score
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.92529    0.92603    0.00531    0.91187    0.93767    0.92423    0.92635   
+Test data       0.93716    0.936      0.01277    0.90984    0.96899    0.93462    0.93971   
 
 
 Evaluate generator with ngram=3, 100 iterations
                 Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
-Train data      0.94801    0.94764    0.00544    0.93359    0.96296    0.94692    0.94909   
-Test data       0.93286    0.93233    0.01665    0.88722    0.96992    0.92954    0.93618   
-
-Euristics for train data: 0.20562
-Euristics for test data: 0.4812
+Train data      0.94858    0.94898    0.00627    0.9324     0.96429    0.94733    0.94983   
+Test data       0.93226    0.93233    0.01417    0.88722    0.96241    0.92943    0.93508   
 
 
-Test Hypothesis of variances and means equation for train data
+Euristics for train data: 0.20536
+Euristics for test data: 0.48872
+
+Precision
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      1.0        1.0        0.0        1.0        1.0        1.0        1.0       
+Test data       1.0        1.0        0.0        1.0        1.0        1.0        1.0       
+
+Recall
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.94875    0.94898    0.00512    0.9375     0.96173    0.94773    0.94977   
+Test data       0.93203    0.93233    0.01724    0.85714    0.96241    0.92859    0.93547   
+
+F-score
+                Mean       Median     Std        Min        Max        CI 95% lower CI 95% upper
+Train data      0.97369    0.97382    0.0027     0.96774    0.98049    0.97316    0.97423   
+Test data       0.96474    0.96498    0.00934    0.92308    0.98084    0.96287    0.9666    
+
+
+Test Hypothesis of accuracy variances and means equation for train data
 Kolmogorov-Smirnov test for the same samples (score, p-value): 1.0, 1.5505547466854487e-45
-F-test for variances (score, p-value): 2.6891263301020127, 0.99999926106155
-T-test score and p-value: -83.43877426677194, 3.107256012265516e-156
+F-test for variances (score, p-value): 2.344842861815273, 0.9999846153588358
+T-test score and p-value: -73.56926926646273, 9.549051652124438e-146
 
-Test Hypothesis of variances and means equation for test data
-Kolmogorov-Smirnov test for the same samples (score, p-value): 0.8, 2.6932864461675737e-29
-F-test for variances (score, p-value): 1.132209333143055, 0.7310484967657682
-T-test score and p-value: -18.921425851621873, 2.840096819384412e-46
+Test Hypothesis of accuracy variances and means equation for test data
+Kolmogorov-Smirnov test for the same samples (score, p-value): 0.8500000000000001, 5.1128465315837016e-33
+F-test for variances (score, p-value): 2.599819713231358, 0.9999983854334803
+T-test score and p-value: -17.980496515656263, 1.7131428972757065e-43
 

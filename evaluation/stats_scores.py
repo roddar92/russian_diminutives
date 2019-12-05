@@ -8,9 +8,24 @@ from rnn.diminutive_generator import DiminutiveGenerator
 from utils.dim_io import read_samples
 
 
+def get_acc_headers():
+    return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
+        '', 'Mean', 'Median', 'Std', 'Min', 'Max', 'CI 95% lower', 'CI 95% upper')
+
+
 def get_headers():
     return "{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
         '', 'Mean', 'Median', 'Std', 'Min', 'Max', 'CI 95% lower', 'CI 95% upper')
+
+
+def print_scores(label, headers, train_scores, test_scores, file=sys.stdout):
+    print(label, file=file)
+    print(headers, file=file)
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
+          .format('Train data', *compute_statistics(train_scores)), file=file)
+    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
+          .format('Test data', *compute_statistics(test_scores)), file=file)
+    print(file=file)
 
 
 def mean_confidence_interval(sample, confidence=0.95):
@@ -45,10 +60,10 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
     gen.fit(train_path)
 
     evaluator = DiminutiveEvaluator(gen, ethalone_path)
-    print(f'Evaluate generator with ngram={ngram}, {times} iterations', file=fout)
-    print(get_headers(), file=fout)
 
     train_scores, train_euristics, test_scores, test_euristics = [], [], [], []
+    train_pres, train_recalls, train_fscores = [], [], []
+    test_pres, test_recalls, test_fscores = [], [], []
     for i in range(times):
         _, _, _, accuracy, euristics = evaluator.evaluate(train_sample.name)
         train_scores.append(accuracy)
@@ -56,19 +71,25 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
         _, _, _, accuracy, euristics = evaluator.evaluate(test_sample.name)
         test_scores.append(accuracy)
         test_euristics.append(euristics)
+        p, r, fs = evaluator.evaluate_precision_recall_fscore(train_sample.name)
+        train_pres.append(p), train_recalls.append(r), train_fscores.append(fs)
+        p, r, fs = evaluator.evaluate_precision_recall_fscore(test_sample.name)
+        test_pres.append(p), test_recalls.append(r), test_fscores.append(fs)
 
         if i % 10 == 0:
             print(f'Processed {i} times...')
 
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
-          .format('Train data', *compute_statistics(train_scores)), file=fout)
-    print('{:<15} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}'
-          .format('Test data', *compute_statistics(test_scores)), file=fout)
+    print_scores(f'Evaluate generator with ngram={ngram}, {times} iterations',
+                 get_acc_headers(), train_scores, test_scores, file=fout)
 
     print(file=fout)
     print(f'Euristics for train data: {np.round(np.mean(train_euristics), 5)}', file=fout)
     print(f'Euristics for test data: {np.round(np.mean(test_euristics), 5)}', file=fout)
     print(file=fout)
+
+    print_scores('Precision', get_headers(), train_pres, test_pres, file=fout)
+    print_scores('Recall', get_headers(), train_recalls, test_recalls, file=fout)
+    print_scores('F-score', get_headers(), train_fscores, test_fscores, file=fout)
 
     return train_scores, test_scores
 
