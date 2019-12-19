@@ -1,49 +1,31 @@
-N-gram=2
-Iteration 1
+N-gram = 2:
+Train data (total, correct, same forms, accuracy, % with used manual euristics): (790, 680, 1, 0.8607594936708861, 0.11139240506329114)
+Test data (total, correct, same forms, accuracy, % with used manual euristics): (135, 115, 0, 0.8518518518518519, 0.13333333333333333)
 Train data:
-Precision: 1.0, Recall: 0.8402130492676432, F-score: 0.9131693198263386
-Test data:
-Precision: 1.0, Recall: 0.8253968253968254, F-score: 0.9043478260869565
-=============
-Iteration 2
-Train data:
-Precision: 1.0, Recall: 0.841897233201581, F-score: 0.9141630901287554
-Test data:
-Precision: 1.0, Recall: 0.875968992248062, F-score: 0.9338842975206612
-=============
-Iteration 3
-Train data:
-Precision: 1.0, Recall: 0.8213820078226858, F-score: 0.9019327129563349
-Test data:
-Precision: 1.0, Recall: 0.8636363636363636, F-score: 0.9268292682926829
-=============
-Iteration 4
-Train data:
-Precision: 1.0, Recall: 0.8620689655172413, F-score: 0.9259259259259259
-Test data:
-Precision: 1.0, Recall: 0.8947368421052632, F-score: 0.9444444444444444
+Precision: 1.0, Recall: 0.8544303797468354, F-score: 0.9215017064846416
 
-N-gram=3
-Iteration 1
-Train data:
-Precision: 1.0, Recall: 0.9307589880159787, F-score: 0.9641379310344826
+Iterations=10
+Vocabulary volume with all forms is: 2095
+Vocabulary volume with correct forms is: 1566
 Test data:
-Precision: 1.0, Recall: 0.9126984126984127, F-score: 0.9543568464730291
-=============
-Iteration 2
+Precision: 1.0, Recall: 0.9185185185185185, F-score: 0.9575289575289575
+
+Iterations=10
+Vocabulary volume with all forms is: 423
+Vocabulary volume with correct forms is: 340
+
+N-gram = 3:
+Train data (total, correct, same forms, accuracy, % with used manual euristics): (790, 751, 7, 0.950632911392405, 0.21012658227848102)
+Test data (total, correct, same forms, accuracy, % with used manual euristics): (135, 127, 1, 0.9407407407407408, 0.4962962962962963)
 Train data:
-Precision: 1.0, Recall: 0.924901185770751, F-score: 0.9609856262833676
+Precision: 1.0, Recall: 0.9481012658227848, F-score: 0.9733593242365172
+
+Iterations=10
+Vocabulary volume with all forms is: 1495
+Vocabulary volume with correct forms is: 1326
 Test data:
-Precision: 1.0, Recall: 0.8837209302325582, F-score: 0.9382716049382717
-=============
-Iteration 3
-Train data:
-Precision: 1.0, Recall: 0.9217731421121251, F-score: 0.9592944369063772
-Test data:
-Precision: 1.0, Recall: 0.9318181818181818, F-score: 0.9647058823529412
-=============
-Iteration 4
-Train data:
-Precision: 1.0, Recall: 0.9450830140485313, F-score: 0.9717662508207485
-Test data:
-Precision: 1.0, Recall: 0.9172932330827067, F-score: 0.9568627450980391
+Precision: 1.0, Recall: 0.8962962962962963, F-score: 0.9453124999999999
+
+Iterations=10
+Vocabulary volume with all forms is: 369
+Vocabulary volume with correct forms is: 329

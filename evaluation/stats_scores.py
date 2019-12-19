@@ -65,15 +65,15 @@ def evaluate_stats_data(ethalone_path, train_path, train_sample, test_sample, ng
     train_pres, train_recalls, train_fscores = [], [], []
     test_pres, test_recalls, test_fscores = [], [], []
     for i in range(times):
-        _, _, _, accuracy, euristics = evaluator.evaluate(train_sample.name)
+        _, _, _, accuracy, euristics = evaluator.evaluate(np.unique(train_sample.name))
         train_scores.append(accuracy)
         train_euristics.append(euristics)
-        _, _, _, accuracy, euristics = evaluator.evaluate(test_sample.name)
+        _, _, _, accuracy, euristics = evaluator.evaluate(np.unique(test_sample.name))
         test_scores.append(accuracy)
         test_euristics.append(euristics)
-        p, r, fs = evaluator.evaluate_precision_recall_fscore(train_sample.name)
+        p, r, fs = evaluator.evaluate_precision_recall_fscore(np.unique(train_sample.name))
         train_pres.append(p), train_recalls.append(r), train_fscores.append(fs)
-        p, r, fs = evaluator.evaluate_precision_recall_fscore(test_sample.name)
+        p, r, fs = evaluator.evaluate_precision_recall_fscore(np.unique(test_sample.name))
         test_pres.append(p), test_recalls.append(r), test_fscores.append(fs)
 
         if i % 10 == 0:

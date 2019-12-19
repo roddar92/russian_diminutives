@@ -55,7 +55,7 @@ class DiminutiveEvaluator:
             base, dim_endings = EthaloneCorporaCollector.get_possible_dim_engings(name)
             return any(diminutive == base + ending for ending in dim_endings)
     
-    def evaluate_vocabulary_volume(self, sample, times=50):
+    def evaluate_vocabulary_volume(self, sample, times=10):
         diminutive_vocabulary = defaultdict(set)
         
         for i in range(times):
@@ -66,8 +66,8 @@ class DiminutiveEvaluator:
                 
         print(f'Vocabulary volume with all forms is: {sum(len(l) for l in diminutive_vocabulary.values())}')
         print(f'Vocabulary volume with correct forms is: '
-              f'{sum(self.is_diminutive_correct(w) for l in diminutive_vocabulary.values() for w in l)}')
-        return diminutive_vocabulary
+              f'{sum(self.is_diminutive_correct(n, w) for n, l in diminutive_vocabulary.items() for w in l)}')
+        # return diminutive_vocabulary
 
     def evaluate_precision_recall_fscore(self, sample):
         y_true, y_pred = [1] * len(sample), []
@@ -102,12 +102,13 @@ def evaluate_data(ethalone_path, train_path, train_sample, test_sample, ngram=2)
     print(f'Test data (total, correct, same forms, accuracy, % with used manual euristics): '
           f'{evaluator.evaluate(test_sample.name)}')
 
-    p, r, f1 = evaluator.evaluate_precision_recall_fscore(train_sample.name)
+    score_title = 'Precision: {}, Recall: {}, F-score: {}'
     print('Train data:')
-    print(f'Precision: {p}, Recall: {r}, F-score: {f1}')
-    p, r, f1 = evaluator.evaluate_precision_recall_fscore(test_sample.name)
+    print(score_title.format(*evaluator.evaluate_precision_recall_fscore(train_sample.name)))
+    evaluator.evaluate_vocabulary_volume(train_sample.name)
     print('Test data:')
-    print(f'Precision: {p}, Recall: {r}, F-score: {f1}')
+    print(score_title.format(*evaluator.evaluate_precision_recall_fscore(test_sample.name)))
+    evaluator.evaluate_vocabulary_volume(test_sample.name)
 
     
 if __name__ == '__main__':
