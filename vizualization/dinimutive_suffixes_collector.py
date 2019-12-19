@@ -248,8 +248,7 @@ def plot_top_diminutive_suffixes(data, use_cat_plot=False):
             ax = sns.barplot(x="dimin_suffix", y="counts", data=df_dims[df_dims.name_suffix == suff])
             ax.set_title(suff)
             ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
-            # plt.show()
-            plt.savefig(f"{suff}.svg")
+            plt.show()
 
 
 if __name__ == '__main__':
