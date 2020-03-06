@@ -1,12 +1,14 @@
 N-gram = 2:
 Train data (total, correct, same forms, accuracy, % with used manual euristics): (790, 680, 1, 0.8607594936708861, 0.11139240506329114)
 Test data (total, correct, same forms, accuracy, % with used manual euristics): (135, 115, 0, 0.8518518518518519, 0.13333333333333333)
+***********
 Train data:
 Precision: 1.0, Recall: 0.8544303797468354, F-score: 0.9215017064846416
 
 Iterations=10
 Vocabulary volume with all forms is: 2095
 Vocabulary volume with correct forms is: 1566
+***********
 Test data:
 Precision: 1.0, Recall: 0.9185185185185185, F-score: 0.9575289575289575
 
@@ -14,15 +16,18 @@ Iterations=10
 Vocabulary volume with all forms is: 423
 Vocabulary volume with correct forms is: 340
 
+=======================================================================
 N-gram = 3:
 Train data (total, correct, same forms, accuracy, % with used manual euristics): (790, 751, 7, 0.950632911392405, 0.21012658227848102)
 Test data (total, correct, same forms, accuracy, % with used manual euristics): (135, 127, 1, 0.9407407407407408, 0.4962962962962963)
+***********
 Train data:
 Precision: 1.0, Recall: 0.9481012658227848, F-score: 0.9733593242365172
 
 Iterations=10
 Vocabulary volume with all forms is: 1495
 Vocabulary volume with correct forms is: 1326
+***********
 Test data:
 Precision: 1.0, Recall: 0.8962962962962963, F-score: 0.9453124999999999
 
