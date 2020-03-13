@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 
@@ -9,6 +10,43 @@ from utils.dim_io import read_samples
 
 def union_dicts(dicts):
     return sum(dicts, Counter())
+
+
+def get_gender_distribution(df_gender):
+    df_gender = df_gender[1:,]
+    gender, counts = np.unique(df_gender, return_counts=True)
+    df_counts = pd.DataFrame({'Gender': gender, 'Counts': counts})
+    ax = sns.barplot(x="Gender", y="Counts", data=df_counts)
+    ax.set_title('Gender distribution')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
+    plt.show()
+
+
+def get_diminutive_suffixes_by_gender(dataset, ngram=2):
+    start = '*'
+
+    print('Collecting of diminutive suffixes...')
+    diminutive_transits = defaultdict(Counter)
+
+    for real_name, diminutive, gender in zip(dataset.Name, dataset.Diminutive, dataset.Gender):
+        real_name, diminutive = real_name.lower(), f'{diminutive.lower()}'
+        n_chars = start * ngram
+        max_len = max(len(real_name), len(diminutive))
+        for i in range(max_len):
+            if i < len(real_name):
+                ch, dim_ch = real_name[i], diminutive[i]
+                if ch != dim_ch:
+                    diminutive_transits[f'{gender}'][diminutive[i:]] += 1
+                    break
+                else:
+                    next_char = real_name[i]
+                    n_chars = n_chars[1:] + next_char
+            else:
+                if i == len(real_name) and real_name.endswith(n_chars):
+                    diminutive_transits[f'{gender}'][diminutive[i:] + '$'] += 1
+                break
+
+    return diminutive_transits
 
 
 def get_diminutive_suffixes(dataset, ngram=2):
@@ -33,9 +71,7 @@ def get_diminutive_suffixes(dataset, ngram=2):
             else:
                 if i == len(real_name) and real_name.endswith(n_chars):
                     diminutive_transits[f'{n_chars}$'][diminutive[i:]] += 1
-                    break
-                else:
-                    break
+                break
 
     return diminutive_transits
 
@@ -253,6 +289,8 @@ def plot_top_diminutive_suffixes(data, use_cat_plot=False):
 
 if __name__ == '__main__':
     PATH_TO_SAMPLES = '../data/train.tsv'
+    PATH_TO_TRAIN_SAMPLES = '../data/train-gender.tsv'
+    PATH_TO_TEST_SAMPLES = '../data/test-gender.tsv'
 
     df = read_samples(PATH_TO_SAMPLES, columns=['Name', 'Diminutive'])
     distrib = get_diminutive_suffixes(df)
@@ -260,4 +298,12 @@ if __name__ == '__main__':
     
     # plot_top_suffixes(distrib)
     # plot_suffixes_distribution(distrib)
-    plot_top_diminutive_suffixes(distrib)
+    # plot_top_diminutive_suffixes(distrib)
+
+    df = read_samples(PATH_TO_TRAIN_SAMPLES, columns=['Name', 'Diminutive', 'Gender'])
+    distrib_by_gender = get_diminutive_suffixes_by_gender(df)
+    # plot_top_diminutive_suffixes(distrib_by_gender)
+    get_gender_distribution(df.Gender)
+
+    df = read_samples(PATH_TO_TEST_SAMPLES, columns=['Name', 'Gender'])
+    get_gender_distribution(df.Gender)

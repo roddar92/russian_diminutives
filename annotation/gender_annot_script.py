@@ -18,7 +18,7 @@ class GenderAnnotator(Annotator):
         tags = Counter(p.tag.gender for p in self.morph.parse(name)).most_common()
         if not tags or (len(tags) > 1 and len(set(dict(tags).values())) == 1):
             return 'neut'
-        return tags[0][0]
+        return tags[0][0] or 'femn'
 
     def annotate(self, dataset):
         dataset['Gender'] = dataset.Name.apply(lambda name: self.__calculate_gender(name))
@@ -26,7 +26,7 @@ class GenderAnnotator(Annotator):
 
     @staticmethod
     def save_annotation(dataset, output_path):
-        dataset.to_csv(output_path)
+        dataset.to_csv(output_path, sep='\t', index=False)
 
 
 if __name__ == '__main__':
